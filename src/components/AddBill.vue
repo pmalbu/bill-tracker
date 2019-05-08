@@ -63,7 +63,7 @@
                 }
 
                 this.$emit('addBill', {
-                    amount: +this.amount,
+                    amount: this.amount,
                     date: this.date,
                     category: this.category
                 })

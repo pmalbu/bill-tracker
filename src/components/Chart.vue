@@ -1,5 +1,5 @@
 <template>
-    <p>chart</p>
+    <p>chartasdfasdf</p>
 </template>
 
 <script>
