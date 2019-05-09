@@ -1,15 +1,26 @@
 <template>
     <div id="app">
-        <AddCategory v-if="shouldShowAddCategory" v-on:addCategory="addCategory" v-on:cancelAddCategory="cancelAddCategory" />
+        <AddCategory v-if="shouldShowAddCategory"
+                     v-on:addCategory="addCategory"
+                     v-on:cancelAddCategory="cancelAddCategory"/>
         <div v-else>
-            <AddBill v-if="shouldShowAddBill" :categories="categories" v-on:addBill="addBill" v-on:cancelAddBill="cancelAddBill" />
-            <NavBar :categories=categories v-on:triggerShowAddCategory=triggerShowAddCategory v-on:deleteCategory=deleteCategory />
-            <div class="container flex">
-                <div class="w-1/2">
-                    <BillsTable :bills="bills" v-on:triggerShowAddBill="triggerShowAddBill" v-on:deleteBill="deleteBill"/>
-                </div>
-                <div class="w-1/2">
-                    <Chart :bills="activeBills"/>
+            <AddBill v-if="shouldShowAddBill"
+                     :categories="categories"
+                     v-on:addBill="addBill"
+                     v-on:cancelAddBill="cancelAddBill"/>
+            <div v-else>
+                <NavBar :categories=categories
+                        v-on:triggerShowAddCategory=triggerShowAddCategory
+                        v-on:deleteCategory=deleteCategory />
+                <div class="container flex">
+                    <div class="w-1/2 bg-grey-lighter">
+                        <BillsTable :bills="bills"
+                                    v-on:triggerShowAddBill="triggerShowAddBill"
+                                    v-on:deleteBill="deleteBill"/>
+                    </div>
+                    <div class="w-1/2 bg-grey-light pt-4 pl-4 text-2xl">
+                        <Chart :bills="bills"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,59 +53,57 @@
                 categories: [],
                 shouldShowAddCategory: false,
                 shouldShowAddBill: false,
-                activeBills: ''
             }
         },
         methods: {
             ////////////////
             // Categories //
             ////////////////
-            addCategory(category) {
+            addCategory (category) {
                 if (this.categories.indexOf(category) !== -1) {
                     alert('You have already added this category!')
-                }
-                else {
+                } else {
                     this.categories.push(category);
                     this.shouldShowAddCategory = false
                 }
             },
-            cancelAddCategory() {
+            cancelAddCategory () {
                 this.shouldShowAddCategory = false
             },
-            deleteCategory(categoryToDelete) {
+            deleteCategory (categoryToDelete) {
                 this.bills = this.bills.filter(bill => bill.category !== categoryToDelete)
                 this.categories.splice(this.categories.indexOf(categoryToDelete), 1)
             },
-            triggerShowAddCategory() {
+            triggerShowAddCategory () {
                 this.shouldShowAddCategory = true
             },
 
             ////////////////
             // Bills      //
             ////////////////
-            addBill(bill) {
+            addBill (bill) {
                 this.bills.push(bill);
                 this.shouldShowAddBill = false
             },
-            deleteBill(index) {
+            deleteBill (index) {
                 this.bills.splice(index, 1)
             },
-            cancelAddBill() {
+            cancelAddBill () {
                 this.shouldShowAddBill = false
             },
-            triggerShowAddBill() {
+            triggerShowAddBill () {
                 this.shouldShowAddBill = true
             },
         },
         watch: {
-            categories() {
+            categories () {
                 localStorage.setItem('categories', JSON.stringify(this.categories))
             },
-            bills() {
+            bills () {
                 localStorage.setItem('bills', JSON.stringify(this.bills))
             }
         },
-        mounted() {
+        mounted () {
             if (localStorage.getItem('categories')) {
                 this.categories = JSON.parse(localStorage.getItem('categories'))
             }

@@ -10,12 +10,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td colspan="4">
+        <tr class="p-5 bg-blue-lighter text-center">
+            <td colspan="5" class="p-5">
                 <button class="underline" @click="triggerShowAddBill">Add new</button>
             </td>
         </tr>
-        <tr v-for="(bill, index) in sortedBills" :key="index" class="p-4">
+        <tr v-for="(bill, index) in sortedBills" :key="index" class="p-5">
             <td>{{index}}</td>
             <td>{{bill.date | moment("MMM D YYYY")}}</td>
             <td>{{bill.amount | currency }}</td>
