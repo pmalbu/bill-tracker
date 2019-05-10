@@ -48,6 +48,10 @@
             monthsWithValues[indexOfMonth] += bill.amount
         }
 
+        for (var i = 0; i < monthsWithValues.length; i++) {
+            monthsWithValues[i] = monthsWithValues[i].toFixed(2)
+        }
+
         return monthsWithValues
     }
 

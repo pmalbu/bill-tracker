@@ -15,7 +15,7 @@
                 <button class="underline" @click="triggerShowAddBill">Add new</button>
             </td>
         </tr>
-        <tr v-for="(bill, index) in sortedBills" :key="index" class="p-5">
+        <tr v-for="(bill, index) in bills" :key="index" class="p-5">
             <td>{{index}}</td>
             <td>{{bill.date | moment("MMM D YYYY")}}</td>
             <td>{{bill.amount | currency }}</td>
@@ -31,17 +31,6 @@
     import Vue2Filters from 'vue2-filters'
     Vue.use(Vue2Filters); // currency filter
 
-    Array.prototype.indexOfBill = function (bill) {
-        for (var i = 0, len = this.length; i < len; i++) {
-            if (this[i]['date'] === bill.date &&
-                this[i]['amount'] === bill.amount &&
-                this[i]['category'] === bill.category) {
-                return i;
-            }
-        }
-        return -1;
-    };
-
     export default {
         name: 'BillsTable',
         props: {
@@ -52,17 +41,8 @@
                 this.$emit('triggerShowAddBill')
             },
             deleteBill(index) {
-                let bill = this.sortedBills[index];
-                let indexToDelete = this.bills.indexOfBill(bill);
-                this.$emit('deleteBill', indexToDelete)
+                this.$emit('deleteBill', index)
             }
-        },
-        computed: {
-            sortedBills() {
-                // use slice() to create a copy of the array
-                return this.bills.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-            },
-
         },
     }
 </script>
